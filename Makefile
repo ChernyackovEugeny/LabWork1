@@ -1,10 +1,10 @@
 PROJECT = mikmik
 CXX = g++
-CXXFLAGS = -Werror -Wpedantic -Wall
-LGTESTFLAGS = -lgtest -lgtest_main -pthread
+CXXFLAGS = -O2 -std=c++17 -fopenmp -Werror -Wpedantic -Wall
+LDFLAGS = -fopenmp
+LGTESTFLAGS = -lgtest -lgtest_main -pthread -fopenmp
 
 DEPS = $(wildcard *.hpp)
-
 OBJ = Rotatebmp.o
 
 .PHONY: default
@@ -14,10 +14,9 @@ default: all
 	$(CXX) $(CXXFLAGS) -c $<
 
 $(PROJECT): main.o $(OBJ)
-	$(CXX) -o $@ main.o $(OBJ)
+	$(CXX) $(LDFLAGS) -o $@ main.o $(OBJ)
 
 all: $(PROJECT)
-
 
 .PHONY: clean cleanall
 
