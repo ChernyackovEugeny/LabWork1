@@ -11,6 +11,8 @@ labwork1
 #include <fstream>
 #include <iostream>
 
+#include <omp.h>
+
 Rotatebmp::Rotatebmp(int kernelSize, double sigmaa) {
     header = new Fileheader;
     bitmap = new Bitmapinfo;
@@ -176,6 +178,9 @@ void Rotatebmp::apply_gaussian_blur() {
     }
     char *ans = new char[bitmap->biHeight * currowSize];
     int halfSize = kSize / 2;
+    
+    #pragma omp parallel for
+    
     for (int i = 0; i < bitmap->biHeight; i++) {
         for (int j = 0; j < bitmap->biWidth; j++) {
             double red_sum = 0.0;
